@@ -1,7 +1,6 @@
 import pytest
 from string_utils import StringUtils
 
-
 string_utils = StringUtils()
 
 
@@ -50,16 +49,23 @@ def test_trim_negative(trim, expected):
 
 
 @pytest.mark.positive
-@pytest.mark.parametrize()
-def test_contains_positive():
-    assert string_utils.contains("lesson", "a") == False
-    assert string_utils.contains("lesson", "n") == True
+@pytest.mark.parametrize("input_string, symbol, expected", [
+    ("Skypro", "a", False),
+    ("Skyeng", "k", True),
+    ("Skyeng", "h", False),
+])
+def test_contains_positive(input_string, symbol, expected):
+    assert string_utils.contains(input_string, symbol) == expected
 
 
-@pytest.mark.positive
-@pytest.mark.parametrize
-def test_contains_negative():
-    assert string_utils.contains("lesson", " ") == False
+@pytest.mark.negative
+@pytest.mark.parametrize("input_string, symbol, expected", [
+    ("skypro", "L", False),
+    ("skypro", "!", False),
+    ("skypro", "$", False)
+])
+def test_contains_negative(input_string, symbol, expected):
+    assert string_utils.contains(input_string, symbol) == expected
 
 
 @pytest.mark.positive
@@ -68,14 +74,13 @@ def test_contains_negative():
     ("lesson", "les", "son"),
     ("12345", "2", "1345"),
 ])
-def test_delete_symbol_positive():
-    assert string_utils.delete_symbol("lesson", "les") == "son"
+def test_delete_symbol_positive(input_string, symbol, expected):
+    assert string_utils.delete_symbol(input_string, symbol) == expected
 
 
 @pytest.mark.parametrize("input_string, symbol, expected", [
-    ("lesson", "les", "lesson"),
-    ("12345", "2", "12345"),
+    ("lesson", "les", "son"),
+    ("12345", "2", "1345"),
 ])
-def test_delete_symbol_negative():
-    assert string_utils.delete_symbol("lesson", "les") == "lesson"
-    assert string_utils.delete_symbol("12345", "2") == "12345"
+def test_delete_symbol_negative(input_string, symbol, expected):
+    assert string_utils.delete_symbol(input_string, symbol) == expected
